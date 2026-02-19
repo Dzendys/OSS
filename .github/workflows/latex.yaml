@@ -23,12 +23,19 @@ jobs:
       - name: Install TeX Live and LuaLaTeX
         uses: xu-cheng/texlive-action@v2
         with:
-          scheme: full # Ensures all libs/fonts are available
-
-      - name: Build all lectures
-        run: |
-          # The action environment needs the same variables as your local Makefile
-          make all
+          scheme: medium
+          pkgs: |
+            latexmk
+            luatex
+            beamer
+            biblatex
+            biber
+            fontspec
+            minted
+            xurl
+            upquote
+          run: |
+            make all
 
       - name: Collect PDFs for Upload
         run: |
