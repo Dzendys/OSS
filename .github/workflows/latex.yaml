@@ -1,0 +1,43 @@
+name: Build LaTeX Lectures
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache LaTeX dependencies
+        uses: actions/cache@v4
+        with:
+          path: target/
+          key: ${{ runner.os }}-latex-${{ hashFiles('**/*.tex', '**/Makefile') }}
+          restore-keys: |
+            ${{ runner.os }}-latex-
+
+      - name: Install TeX Live and LuaLaTeX
+        uses: xu-cheng/texlive-action@v2
+        with:
+          scheme: full # Ensures all libs/fonts are available
+
+      - name: Build all lectures
+        run: |
+          # The action environment needs the same variables as your local Makefile
+          make all
+
+      - name: Collect PDFs for Upload
+        run: |
+          mkdir -p dist
+          find target -name "*.pdf" -exec cp {} dist/ \;
+
+      - name: Upload PDF Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lecture-pdfs
+          path: dist/*.pdf
+          if-no-files-found: error
