@@ -16,8 +16,8 @@ $(LECTURES):
 
 dev:
 	@LEC=$$(echo "$(LECTURES)" | tr ' ' '\n' | fzf --prompt="Select lecture to watch: ")
-	@mkdir -p $(TARGET_DIR)/$(LEC)
-	TEXINPUTS="lectures/$$LEC/:" BIBINPUTS="lectures/$$LEC/:" latexmk $(LATEX_FLAGS) -pvc -outdir=$(TARGET_DIR)/$$LEC -jobname="$@" lectures/$$LEC/main.tex
+	@mkdir -p $(TARGET_DIR)/$$LEC
+	TEXINPUTS="lectures/$$LEC/:" BIBINPUTS="lectures/$$LEC/:" latexmk $(LATEX_FLAGS) -pvc -outdir=$(TARGET_DIR)/$$LEC -jobname="$$LEC" lectures/$$LEC/main.tex
 
 list:
 	@echo "Detected lectures:"
