@@ -1,0 +1,58 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{fitpptemplate}[FIT++ presentation Template]
+
+\RequirePackage{kvoptions}
+\DeclareStringOption[czech]{language}[czech]
+\DeclareBoolOption{nobeamer}
+\ProcessKeyvalOptions*
+
+% Localization
+\RequirePackage{polyglossia}
+\setdefaultlanguage{\fitpptemplate@language}
+
+\RequirePackage{biblatex}
+
+\DefineBibliographyStrings{czech}{%
+  references = {Zdroje},
+}
+
+% Colors / Beamer config
+\RequirePackage{xcolor}
+\definecolor{FITBlue}{RGB}{0,115,188}
+\definecolor{FITYellow}{RGB}{249,176,0}
+
+\RequirePackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=white, % TODO: do this only for navigation?
+  anchorcolor=cyan,
+  urlcolor=cyan,
+  citecolor=black
+}
+
+\iffitpptemplate@nobeamer
+\else
+  \usetheme{Berlin}
+  \setbeamercolor{structure}{fg=FITBlue}
+  \setbeamercolor{palette secondary}{bg=FITBlue}
+  \setbeamercolor{palette tertiary}{fg=white,bg=FITYellow}
+\fi
+
+% Fonts
+\RequirePackage{fontspec}
+
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+% \setmathfont{TeX Gyre DejaVu Math}
+
+% TODO: hyperref
+
+% TODO: math
+
+% Useful packages when writing presentations
+\RequirePackage{minted}
+\RequirePackage{tikz}
+\RequirePackage{csquotes}
+
+\endinput

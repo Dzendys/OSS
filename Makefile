@@ -12,12 +12,12 @@ all: $(LECTURES)
 $(LECTURES):
 	@echo "--- Building: $@ ---"
 	@mkdir -p $(TARGET_DIR)/$@
-	TEXINPUTS="lectures/$@/:" BIBINPUTS="lectures/$@/:" latexmk $(LATEX_FLAGS) -view=none -outdir=$(TARGET_DIR)/$@ -jobname="$@" lectures/$@/main.tex
+	TEXINPUTS="lectures/$@/:packages/:" BIBINPUTS="lectures/$@/:" latexmk $(LATEX_FLAGS) -view=none -outdir=$(TARGET_DIR)/$@ -jobname="$@" lectures/$@/main.tex
 
 dev:
-	@LEC=$$(echo "$(LECTURES)" | tr ' ' '\n' | fzf --prompt="Select lecture to watch: ")
+	@LEC=$$(echo "$(LECTURES)" | tr ' ' '\n' | sort -r | fzf --prompt="Select lecture to watch: ")
 	@mkdir -p $(TARGET_DIR)/$$LEC
-	TEXINPUTS="lectures/$$LEC/:" BIBINPUTS="lectures/$$LEC/:" latexmk $(LATEX_FLAGS) -pvc -outdir=$(TARGET_DIR)/$$LEC -jobname="$$LEC" lectures/$$LEC/main.tex
+	TEXINPUTS="lectures/$$LEC/:packages/:" BIBINPUTS="lectures/$$LEC/:" latexmk $(LATEX_FLAGS) -pvc -outdir=$(TARGET_DIR)/$$LEC -jobname="$$LEC" lectures/$$LEC/main.tex
 
 list:
 	@echo "Detected lectures:"
